@@ -1,32 +1,36 @@
 #!/usr/bin/env python3
-""" Basic Babel setup
+"""
+A Basic flask application
 """
 from flask import Flask
-from flask_babel import Babel
 from flask import render_template
+from flask_babel import Babel
 
 
-class Config:
-    """create a Config class that has a LANGUAGES
-       class attribute equal to ["en", "fr"].
+class Config(object):
     """
-    LANGUAGES = ["en", "fr"]
-    BABEL_DEFAULT_LOCALE = "en"
-    BABEL_DEFAULT_TIMEZONE = "UTC"
+    Application configuration class
+    """
+    LANGUAGES = ['en', 'fr']
+    BABEL_DEFAULT_LOCALE = 'en'
+    BABEL_DEFAULT_TIMEZONE = 'UTC'
 
 
+# Instantiate the application object
 app = Flask(__name__)
 app.config.from_object(Config)
-app.url_map.strict_slashes = False
+
+# Wrap the application with Babel
 babel = Babel(app)
 
 
-@app.route('/')
-def hello() -> str:
-    """The home/index page.
+@app.route('/', strict_slashes=False)
+def index() -> str:
+    """
+    Renders a basic html template
     """
     return render_template('1-index.html')
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+    app.run()
